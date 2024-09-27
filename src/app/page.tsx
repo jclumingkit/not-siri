@@ -1,10 +1,10 @@
 import { Container } from "@mantine/core";
-import Chatbox from "./component/Chatbox";
+import ChatBox from "./components/ChatBox";
 
 export default function Home() {
   return (
     <Container h="100vh" fluid>
-      <Chatbox />
+      <ChatBox />
     </Container>
   );
 }

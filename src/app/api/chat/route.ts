@@ -1,3 +1,4 @@
+import { SYSTEM_INSTRUCTION } from "@/utils/constant";
 import { openai } from "@ai-sdk/openai";
 import { convertToCoreMessages, streamText } from "ai";
 
@@ -8,6 +9,7 @@ export async function POST(req: Request) {
 
   const result = await streamText({
     model: openai("gpt-3.5-turbo"),
+    system: SYSTEM_INSTRUCTION,
     messages: convertToCoreMessages(messages),
   });
 

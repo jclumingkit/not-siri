@@ -37,7 +37,7 @@ export const dateFromNow = (date: Date) => {
   if (seconds >= 90 && minutes <= 44) {
     return minutes + " minutes ago";
   }
-  if (seconds >= 45 && seconds <= 89) {
+  if (seconds >= 45 && seconds <= 119) {
     return "a minute ago";
   }
   if (seconds >= 0 && seconds <= 45) {

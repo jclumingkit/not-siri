@@ -1,11 +1,13 @@
 import { dateFromNow } from "@/utils/parsers";
-import { Avatar, Card, Flex, Text } from "@mantine/core";
+import { Avatar, Box, Card, Flex, Text } from "@mantine/core";
 import { IconBrandGithubCopilot, IconUserCircle } from "@tabler/icons-react";
 import { Message as TMessage } from "ai";
+import ReactMarkdown from "react-markdown";
 
 type Props = {
   message: TMessage;
 };
+
 const Message = ({ message }: Props) => {
   const isUser = message.role === "user";
 
@@ -24,8 +26,10 @@ const Message = ({ message }: Props) => {
         )}
       </Avatar>
 
-      <Card withBorder radius="md" p="xs">
-        <Text>{message.content}</Text>
+      <Card withBorder radius="lg" py={0} px="md">
+        <Box>
+          <ReactMarkdown>{message.content}</ReactMarkdown>
+        </Box>
       </Card>
       <Text c="dimmed" size="xs">
         {dateFromNow(message.createdAt as Date)}
