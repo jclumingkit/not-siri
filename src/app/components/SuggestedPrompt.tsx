@@ -10,6 +10,7 @@ const SuggestedPrompt = ({ prompt }: Props) => {
   const { append } = useChat({ id: SHARED_CHAT_ID, api: "/api/chat" });
   return (
     <Card
+      shadow="none"
       withBorder
       radius="lg"
       p="md"
