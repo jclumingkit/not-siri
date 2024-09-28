@@ -10,12 +10,7 @@ import {
   Loader,
   Tooltip,
 } from "@mantine/core";
-import {
-  IconBrandGithubCopilot,
-  IconCopy,
-  IconReload,
-  IconUserCircle,
-} from "@tabler/icons-react";
+import { IconCopy, IconReload, IconUserCircle } from "@tabler/icons-react";
 import { useRef } from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -40,13 +35,9 @@ const Message = ({ message }: Props) => {
         variant="transparent"
         radius="sm"
         color={isUser ? "blue" : "grape"}
-        src=""
+        src={isUser ? null : "favicon.ico"}
       >
-        {isUser ? (
-          <IconUserCircle size={28} />
-        ) : (
-          <IconBrandGithubCopilot size={28} />
-        )}
+        <IconUserCircle size={28} />
       </Avatar>
 
       <Flex

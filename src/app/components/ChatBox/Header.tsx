@@ -1,7 +1,7 @@
 import useChatService from "@/hooks/useChatService";
 import { ActionIcon, Avatar, Flex, Menu } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
-import { IconBrandGithubCopilot, IconDots } from "@tabler/icons-react";
+import { IconDots } from "@tabler/icons-react";
 
 const ChatBoxHeader = () => {
   const { setMessages } = useChatService();
@@ -16,9 +16,7 @@ const ChatBoxHeader = () => {
 
   return (
     <Flex bg="grape" justify="space-between" align="center" p="sm">
-      <Avatar variant="transparent" radius="sm" size="md" src="">
-        <IconBrandGithubCopilot size={40} />
-      </Avatar>
+      <Avatar variant="transparent" radius="sm" size="md" src="favicon.ico" />
       <Flex gap="sm">
         <Menu position="bottom-end" offset={1}>
           <Menu.Target>

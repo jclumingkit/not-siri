@@ -18,6 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <ColorSchemeScript defaultColorScheme="dark" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="shortcut icon" href="/favicon.svg" />
         <title>Not-Siri</title>
         <meta
