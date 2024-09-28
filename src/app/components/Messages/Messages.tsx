@@ -12,6 +12,7 @@ type Props = {
 };
 
 const Messages = ({ initialMessages }: Props) => {
+  const messageListContainerRef = useRef<HTMLDivElement>(null);
   const { messages, isLoading } = useChat({
     id: SHARED_CHAT_ID,
     api: "/api/chat",
@@ -19,7 +20,9 @@ const Messages = ({ initialMessages }: Props) => {
   });
 
   const hasMessages = messages.length > 0;
-  const messageListContainerRef = useRef<HTMLDivElement>(null);
+  const userLatestMessage = messages[messages.length - 1];
+  const botIsTyping =
+    isLoading && userLatestMessage && userLatestMessage.role === "user";
 
   useEffect(() => {
     const messageListContainer = messageListContainerRef.current;
@@ -57,9 +60,7 @@ const Messages = ({ initialMessages }: Props) => {
               <SuggestedPrompt key={index} prompt={prompt} />
             ))}
 
-        {isLoading && messages[messages.length - 1].role === "user" && (
-          <BotTyping />
-        )}
+        {botIsTyping && <BotTyping />}
       </Flex>
     </Box>
   );

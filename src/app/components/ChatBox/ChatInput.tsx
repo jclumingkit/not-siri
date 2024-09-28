@@ -1,5 +1,5 @@
 import { SHARED_CHAT_ID } from "@/utils/constant";
-import { TMessageHistory } from "@/utils/types";
+import { TMessage, TMessageHistory } from "@/utils/types";
 import {
   ActionIcon,
   Affix,
@@ -15,21 +15,37 @@ import { useState } from "react";
 
 const ChatInput = () => {
   const [receivedErrorResponse, setReceivedErrorResponse] = useState(false);
-  const setMessageHistory = useLocalStorage({
+  const [messageHistory, setMessageHistory] = useLocalStorage({
     key: "not-siri-message-history",
     defaultValue: null as TMessageHistory,
-  })[1];
-  const { messages, input, handleInputChange, handleSubmit, isLoading, stop } =
-    useChat({
-      id: SHARED_CHAT_ID,
-      api: "/api/chat",
-      onFinish: () => {
-        setMessageHistory(messages);
-      },
-      onError: () => {
-        setReceivedErrorResponse(true);
-      },
-    });
+  });
+  const {
+    messages,
+    setMessages,
+    input,
+    handleInputChange,
+    handleSubmit,
+    isLoading,
+    stop,
+  } = useChat({
+    id: SHARED_CHAT_ID,
+    api: "/api/chat",
+    onFinish: () => {
+      setMessageHistory(messages);
+    },
+    onError: () => {
+      const tempUserMessage = {
+        id: "temp-id",
+        role: "user" as TMessage["role"],
+        content: input,
+      };
+      const updatedMessageHistory = messageHistory
+        ? [...messageHistory, tempUserMessage]
+        : [];
+      setMessages(updatedMessageHistory);
+      setReceivedErrorResponse(true);
+    },
+  });
 
   return (
     <Box p="sm">
