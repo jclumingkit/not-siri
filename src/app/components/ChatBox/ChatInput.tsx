@@ -1,5 +1,4 @@
-import { SHARED_CHAT_ID } from "@/utils/constant";
-import { TMessage, TMessageHistory } from "@/utils/types";
+import useChatService from "@/hooks/useChatService";
 import {
   ActionIcon,
   Affix,
@@ -8,44 +7,18 @@ import {
   rem,
   Textarea,
 } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
 import { IconPlayerStopFilled, IconSend2, IconX } from "@tabler/icons-react";
-import { useChat } from "ai/react";
-import { useState } from "react";
 
 const ChatInput = () => {
-  const [receivedErrorResponse, setReceivedErrorResponse] = useState(false);
-  const [messageHistory, setMessageHistory] = useLocalStorage({
-    key: "not-siri-message-history",
-    defaultValue: null as TMessageHistory,
-  });
   const {
-    messages,
-    setMessages,
     input,
+    isLoading,
+    receivedErrorResponse,
     handleInputChange,
     handleSubmit,
-    isLoading,
     stop,
-  } = useChat({
-    id: SHARED_CHAT_ID,
-    api: "/api/chat",
-    onFinish: () => {
-      setMessageHistory(messages);
-    },
-    onError: () => {
-      const tempUserMessage = {
-        id: "temp-id",
-        role: "user" as TMessage["role"],
-        content: input,
-      };
-      const updatedMessageHistory = messageHistory
-        ? [...messageHistory, tempUserMessage]
-        : [];
-      setMessages(updatedMessageHistory);
-      setReceivedErrorResponse(true);
-    },
-  });
+    setReceivedErrorResponse,
+  } = useChatService();
 
   return (
     <Box p="sm">
@@ -60,6 +33,11 @@ const ChatInput = () => {
           radius="xl"
           size="lg"
           placeholder={isLoading ? "Sending..." : "Got a question?"}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSubmit();
+            }
+          }}
           readOnly={isLoading}
           rightSection={
             <ActionIcon

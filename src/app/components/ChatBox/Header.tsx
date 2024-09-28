@@ -1,14 +1,10 @@
-import { SHARED_CHAT_ID } from "@/utils/constant";
+import useChatService from "@/hooks/useChatService";
 import { ActionIcon, Avatar, Flex, Menu } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import { IconBrandGithubCopilot, IconDots } from "@tabler/icons-react";
-import { useChat } from "ai/react";
 
 const ChatBoxHeader = () => {
-  const { setMessages } = useChat({
-    id: SHARED_CHAT_ID,
-    api: "/api/chat",
-  });
+  const { setMessages } = useChatService();
   const removeMessageHistory = useLocalStorage({
     key: "not-siri-message-history",
   })[2];

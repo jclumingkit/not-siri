@@ -1,13 +1,13 @@
-import { SHARED_CHAT_ID } from "@/utils/constant";
+import useChatService from "@/hooks/useChatService";
 import { Card, Text } from "@mantine/core";
-import { useChat } from "ai/react";
 
 type Props = {
   prompt: string;
 };
 
 const SuggestedPrompt = ({ prompt }: Props) => {
-  const { append } = useChat({ id: SHARED_CHAT_ID, api: "/api/chat" });
+  const { handleAppendChat } = useChatService();
+
   return (
     <Card
       shadow="none"
@@ -15,12 +15,7 @@ const SuggestedPrompt = ({ prompt }: Props) => {
       radius="lg"
       p="md"
       style={{ cursor: "pointer" }}
-      onClick={() =>
-        append({
-          role: "user",
-          content: prompt,
-        })
-      }
+      onClick={() => handleAppendChat(prompt)}
     >
       <Text>{prompt}</Text>
     </Card>

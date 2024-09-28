@@ -1,4 +1,4 @@
-import { SHARED_CHAT_ID } from "@/utils/constant";
+import useChatService from "@/hooks/useChatService";
 import { TMessage } from "@/utils/types";
 import {
   ActionIcon,
@@ -16,7 +16,6 @@ import {
   IconReload,
   IconUserCircle,
 } from "@tabler/icons-react";
-import { useChat } from "ai/react";
 import { useRef } from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -25,10 +24,7 @@ type Props = {
 };
 
 const Message = ({ message }: Props) => {
-  const { reload } = useChat({
-    id: SHARED_CHAT_ID,
-    api: "/api/chat",
-  });
+  const { reload } = useChatService();
   const isUser = message.role === "user";
   const markdownRef = useRef<HTMLDivElement>(null);
 

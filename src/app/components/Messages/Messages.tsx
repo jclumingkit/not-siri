@@ -1,23 +1,15 @@
-import { SHARED_CHAT_ID, SUGGESTED_PROMPTS } from "@/utils/constant";
-import { TMessage } from "@/utils/types";
+import useChatService from "@/hooks/useChatService";
+import { SUGGESTED_PROMPTS } from "@/utils/constant";
 import { Box, Flex } from "@mantine/core";
-import { useChat } from "ai/react";
 import { useEffect, useRef } from "react";
 import SuggestedPrompt from "../SuggestedPrompt";
 import BotTyping from "./BotTyping";
 import Message from "./Message";
 
-type Props = {
-  initialMessages: TMessage[];
-};
-
-const Messages = ({ initialMessages }: Props) => {
+const Messages = () => {
+  const { isInitialized } = useChatService();
   const messageListContainerRef = useRef<HTMLDivElement>(null);
-  const { messages, isLoading } = useChat({
-    id: SHARED_CHAT_ID,
-    api: "/api/chat",
-    initialMessages,
-  });
+  const { messages, isLoading } = useChatService();
 
   const hasMessages = messages.length > 0;
   const userLatestMessage = messages[messages.length - 1];
@@ -52,14 +44,14 @@ const Messages = ({ initialMessages }: Props) => {
         justify={!hasMessages ? "flex-end" : undefined}
         gap="sm"
       >
-        {hasMessages
-          ? messages.map((message) => (
-              <Message key={message.id} message={message} />
-            ))
-          : SUGGESTED_PROMPTS.map((prompt, index) => (
-              <SuggestedPrompt key={index} prompt={prompt} />
-            ))}
-
+        {isInitialized &&
+          (hasMessages
+            ? messages.map((message) => (
+                <Message key={message.id} message={message} />
+              ))
+            : SUGGESTED_PROMPTS.map((prompt, index) => (
+                <SuggestedPrompt key={index} prompt={prompt} />
+              )))}
         {botIsTyping && <BotTyping />}
       </Flex>
     </Box>
